@@ -21,7 +21,7 @@ class OneFragment: Fragment(R.layout.fragment_one) {
 
         val binding = FragmentOneBinding.bind(view)
 
-        val viewModel = OneViewModel(requireContext())
+        val viewModel = OneViewModel(requireActivity().application)
 
         val layoutManager = LinearLayoutManager(requireContext())
 
@@ -61,6 +61,7 @@ class OneFragment: Fragment(R.layout.fragment_one) {
 }
 
 val diffUtil = object: DiffUtil.ItemCallback<Item>(){
+
     override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
         return oldItem.name == newItem.name
     }
@@ -68,7 +69,6 @@ val diffUtil = object: DiffUtil.ItemCallback<Item>(){
     override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
         return oldItem == newItem
     }
-
 }
 
 class CustomAdapter (
