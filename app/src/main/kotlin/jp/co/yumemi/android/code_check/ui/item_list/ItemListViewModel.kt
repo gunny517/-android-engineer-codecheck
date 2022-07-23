@@ -6,6 +6,7 @@ package jp.co.yumemi.android.code_check.ui.item_list
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,21 +28,26 @@ class ItemListViewModel @Inject constructor(
 
     fun execSearch(editText: TextView, action: Int, event: KeyEvent?): Boolean {
         if (action == EditorInfo.IME_ACTION_SEARCH){
-            editText.text?.let { inputText ->
-                viewModelScope.launch {
-                    getRepositorySearchResultUseCase(
-                        query = inputText.toString(),
-                    ) { result ->
-                        result.onSuccess {
-                            searchResult.value = result.getOrNull()
-                        }.onFailure {
-                            // TODO
-                        }
-                    }
-                }
-            }
+            innerSearch(editText.text)
             return true
         }
         return false
+    }
+
+    @VisibleForTesting
+    fun innerSearch(char: CharSequence?) {
+        char?.let {
+            viewModelScope.launch {
+                getRepositorySearchResultUseCase(
+                    query = it.toString(),
+                ) { result ->
+                    result.onSuccess {
+                        searchResult.value = result.getOrNull()
+                    }.onFailure {
+                        // TODO
+                    }
+                }
+            }
+        }
     }
 }
