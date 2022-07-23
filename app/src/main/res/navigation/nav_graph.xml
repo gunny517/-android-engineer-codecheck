@@ -7,24 +7,24 @@
 
     <fragment
         android:id="@+id/oneFragment"
-        android:name="jp.co.yumemi.android.code_check.OneFragment"
+        android:name="jp.co.yumemi.android.code_check.ui.item_list.ItemListFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_one">
+        tools:layout="@layout/fragment_item_ist">
 
         <action
-            android:id="@+id/action_oneFragment_to_twoFragment"
+            android:id="@+id/action_oneFragment_to_ItemDetailFragment"
             app:destination="@id/twoFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/twoFragment"
-        android:name="jp.co.yumemi.android.code_check.TwoFragment"
+        android:name="jp.co.yumemi.android.code_check.ui.item_detail.ItemDetailFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_two">
+        tools:layout="@layout/fragment_item_detail">
 
         <argument
             android:name="item"
-            app:argType="jp.co.yumemi.android.code_check.Item" />
+            app:argType="jp.co.yumemi.android.code_check.domain.model.Item" />
     </fragment>
 
 </navigation>
