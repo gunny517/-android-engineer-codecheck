@@ -34,14 +34,8 @@ class ItemListViewModel @Inject constructor(
     @VisibleForTesting
     fun innerSearch(char: CharSequence?) {
         char?.let {
-            getRepositorySearchResultUseCase(
-                query = it.toString(),
-            ) { result ->
-                result.onSuccess {
-                    searchResult.value = result.getOrNull()
-                }.onFailure {
-                    // TODO
-                }
+            viewModelScope.launch {
+                searchResult.value = getRepositorySearchResultUseCase(it.toString())
             }
         }
     }

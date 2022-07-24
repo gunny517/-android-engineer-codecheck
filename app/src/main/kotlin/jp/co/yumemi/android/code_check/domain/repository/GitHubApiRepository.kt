@@ -8,10 +8,7 @@ class GitHubApiRepository @Inject constructor(
     private val gitHubApiDataSource: GitHubApiDataSource
 ) {
 
-    fun getRepositorySearchResult(query: String, callback: (Result<List<Item>>) -> Unit) {
-        return gitHubApiDataSource.getRepositorySearchResult(
-            query = query,
-            callback = callback,
-        )
-    }
+    suspend fun getRepositorySearchResult(query: String): List<Item> =
+        gitHubApiDataSource.getRepositorySearchResult(query)
+
 }

@@ -1,38 +1,37 @@
 package jp.co.yumemi.android.code_check.domain.datasource
 
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
-import jp.co.yumemi.android.code_check.R
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.android.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import jp.co.yumemi.android.code_check.TopActivity
 import jp.co.yumemi.android.code_check.domain.model.Item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import java.io.IOException
 import java.util.*
 import javax.inject.Inject
+import javax.net.ssl.SSLHandshakeException
 
 class GitHubApiDataSource @Inject constructor() {
 
-    fun getRepositorySearchResult(query: String,  callback: (kotlin.Result<List<Item>>) -> Unit) {
-        ENDPOINT.httpGet(
-            listOf(Pair("q", query))
-        ).header(
-            mapOf(Pair("Accept", "application/vnd.github.v3+json"))
-        ).responseString { _, _, result ->
-            when (result) {
-                is Result.Success -> {
-                    callback(kotlin.Result.success(parseResponse(result.value)))
+    suspend fun getRepositorySearchResult(inputText: String): List<Item> =
+        withContext(Dispatchers.IO){
+            try {
+                val client = HttpClient(Android)
+                val response: HttpResponse = client.get(ENDPOINT) {
+                    header("Accept", "application/vnd.github.v3+json")
+                    parameter("q", inputText)
                 }
-                is Result.Failure -> {
-                    callback(kotlin.Result.failure(IOException("Unknown")))
-                }
+                val jsonBody = JSONObject(response.receive<String>())
+                parseResponse(jsonBody)
+            }catch (e: SSLHandshakeException){
+                listOf<Item>()
             }
-        }
     }
 
-    private fun parseResponse(json: String): List<Item> {
-        val jsonBody = JSONObject(json)
+    private fun parseResponse(jsonBody: JSONObject): List<Item> {
         val jsonItems = jsonBody.optJSONArray(ITEMS)!!
         val items = mutableListOf<Item>()
         for (i in 0 until jsonItems.length()) {
