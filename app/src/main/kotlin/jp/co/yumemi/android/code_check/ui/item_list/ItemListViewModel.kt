@@ -16,9 +16,6 @@ import jp.co.yumemi.android.code_check.usecase.GetRepositorySearchResultUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * OneFragment で使う
- */
 @HiltViewModel
 class ItemListViewModel @Inject constructor(
     val getRepositorySearchResultUseCase: GetRepositorySearchResultUseCase,

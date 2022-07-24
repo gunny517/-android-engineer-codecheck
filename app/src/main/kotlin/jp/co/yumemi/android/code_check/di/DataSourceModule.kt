@@ -14,5 +14,4 @@ object DataSourceModule {
     fun bindsGitHubApiDataSource(): GitHubApiDataSource {
         return GitHubApiDataSource()
     }
-
 }
