@@ -6,13 +6,11 @@ import io.mockk.mockk
 import jp.co.yumemi.android.code_check.applyTestTaskExecutor
 import jp.co.yumemi.android.code_check.domain.model.Item
 import jp.co.yumemi.android.code_check.usecase.GetRepositorySearchResultUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(JUnitPlatform::class)
 object ItemListViewModelTest : Spek({
 
