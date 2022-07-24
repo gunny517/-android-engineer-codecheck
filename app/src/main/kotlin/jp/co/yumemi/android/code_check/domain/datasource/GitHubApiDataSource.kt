@@ -14,20 +14,18 @@ import javax.inject.Inject
 
 class GitHubApiDataSource @Inject constructor() {
 
-    suspend fun getRepositorySearchResult(query: String,  callback: (kotlin.Result<List<Item>>) -> Unit) {
-        withContext(Dispatchers.IO){
-            ENDPOINT.httpGet(
-                listOf(Pair("q", query))
-            ).header(
-                mapOf(Pair("Accept", "application/vnd.github.v3+json"))
-            ).responseString { _, _, result ->
-                when (result) {
-                    is Result.Success -> {
-                        callback(kotlin.Result.success(parseResponse(result.value)))
-                    }
-                    is Result.Failure -> {
-                        callback(kotlin.Result.failure(IOException("Unknown")))
-                    }
+    fun getRepositorySearchResult(query: String,  callback: (kotlin.Result<List<Item>>) -> Unit) {
+        ENDPOINT.httpGet(
+            listOf(Pair("q", query))
+        ).header(
+            mapOf(Pair("Accept", "application/vnd.github.v3+json"))
+        ).responseString { _, _, result ->
+            when (result) {
+                is Result.Success -> {
+                    callback(kotlin.Result.success(parseResponse(result.value)))
+                }
+                is Result.Failure -> {
+                    callback(kotlin.Result.failure(IOException("Unknown")))
                 }
             }
         }

@@ -2,15 +2,11 @@ package jp.co.yumemi.android.code_check.ui.item_list
 
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
+import jp.co.yumemi.android.code_check.applyTestTaskExecutor
 import jp.co.yumemi.android.code_check.domain.model.Item
 import jp.co.yumemi.android.code_check.usecase.GetRepositorySearchResultUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import org.spekframework.spek2.Spek
@@ -20,11 +16,9 @@ import org.spekframework.spek2.style.specification.describe
 @RunWith(JUnitPlatform::class)
 object ItemListViewModelTest : Spek({
 
-    lateinit var viewModel: ItemListViewModel
+    applyTestTaskExecutor()
 
-    beforeGroup {
-        Dispatchers.setMain(TestCoroutineDispatcher())
-    }
+    lateinit var viewModel: ItemListViewModel
 
     describe("検索の機能") {
         beforeEachTest {
@@ -56,11 +50,14 @@ object ItemListViewModelTest : Spek({
         it("検索結果がセットされること") {
             viewModel.innerSearch("query")
             assertThat(viewModel.searchResult.value).hasSize(1)
+            assertThat(viewModel.searchResult.value?.get(0)?.name).isEqualTo("JetBrains/kotlin")
+            assertThat(viewModel.searchResult.value?.get(0)?.language).isEqualTo("Written in Kotlin")
+            assertThat(viewModel.searchResult.value?.get(0)?.stargazersCount).isEqualTo(38530L)
+            assertThat(viewModel.searchResult.value?.get(0)?.forksCount).isEqualTo(10L)
+            assertThat(viewModel.searchResult.value?.get(0)?.watchersCount).isEqualTo(11L)
+            assertThat(viewModel.searchResult.value?.get(0)?.openIssuesCount).isEqualTo(12L)
+            assertThat(viewModel.searchResult.value?.get(0)?.ownerIconUrl).isEqualTo("https://example.com/image.png")
         }
-    }
-
-    afterGroup {
-        Dispatchers.resetMain()
     }
 
 })

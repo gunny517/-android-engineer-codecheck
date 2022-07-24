@@ -8,7 +8,7 @@ class GetRepositorySearchResultUseCase @Inject constructor(
     private val gitHubApiRepository: GitHubApiRepository
 ) {
 
-    suspend operator fun invoke(query: String, callback: (Result<List<Item>>) -> Unit) {
+    operator fun invoke(query: String, callback: (Result<List<Item>>) -> Unit) {
         return gitHubApiRepository.getRepositorySearchResult(
             query = query,
             callback = callback,

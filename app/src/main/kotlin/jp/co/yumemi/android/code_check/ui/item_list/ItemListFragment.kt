@@ -17,6 +17,8 @@ import jp.co.yumemi.android.code_check.domain.model.Item
 @AndroidEntryPoint
 class ItemListFragment: Fragment(R.layout.fragment_item_ist) {
 
+    private val viewModel: ItemListViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initLayout(view)
@@ -24,7 +26,6 @@ class ItemListFragment: Fragment(R.layout.fragment_item_ist) {
 
     private fun initLayout(view: View){
         val binding = FragmentItemIstBinding.bind(view)
-        val viewModel: ItemListViewModel by viewModels()
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         val adapter = ItemListAdapter(object : ItemListAdapter.OnItemClickListener {
