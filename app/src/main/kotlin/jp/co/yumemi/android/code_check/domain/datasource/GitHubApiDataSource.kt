@@ -33,39 +33,47 @@ class GitHubApiDataSource @Inject constructor() {
 
     private fun parseResponse(json: String): List<Item> {
         val jsonBody = JSONObject(json)
-        val jsonItems = jsonBody.optJSONArray("items")!!
+        val jsonItems = jsonBody.optJSONArray(ITEMS)!!
         val items = mutableListOf<Item>()
-
-        /**
-         * アイテムの個数分ループする
-         */
         for (i in 0 until jsonItems.length()) {
-            val jsonItem = jsonItems.optJSONObject(i)!!
-            val name = jsonItem.optString("full_name")
-            val ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url")
-            val language = jsonItem.optString("language")
-            val stargazersCount = jsonItem.optLong("stargazers_count")
-            val watchersCount = jsonItem.optLong("watchers_count")
-            val forksCount = jsonItem.optLong("forks_count")
-            val openIssuesCount = jsonItem.optLong("open_issues_count")
-
-            items.add(
-                Item(
-                    name = name,
-                    ownerIconUrl = ownerIconUrl,
-                    language = language,
-                    stargazersCount = stargazersCount,
-                    watchersCount = watchersCount,
-                    forksCount = forksCount,
-                    openIssuesCount = openIssuesCount
-                )
-            )
+            jsonItems.optJSONObject(i)?.let {
+                items.add(parseItem(it))
+            }
         }
         TopActivity.lastSearchDate = Date()
         return items.toList()
     }
 
+    private fun parseItem(jsonItem: JSONObject): Item {
+        val name = jsonItem.optString(FULL_NAME)
+        val ownerIconUrl = jsonItem.optJSONObject(OWNER)!!.optString(AVATAR_URL)
+        val language = jsonItem.optString(LANGUAGE)
+        val stargazersCount = jsonItem.optLong(STARGAZERS_COUNT)
+        val watchersCount = jsonItem.optLong(WATCHERS_COUNT)
+        val forksCount = jsonItem.optLong(FORKS_COUNT)
+        val openIssuesCount = jsonItem.optLong(OPEN_ISSUES_COUNT)
+
+        return Item(
+            name = name,
+            ownerIconUrl = ownerIconUrl,
+            language = language,
+            stargazersCount = stargazersCount,
+            watchersCount = watchersCount,
+            forksCount = forksCount,
+            openIssuesCount = openIssuesCount
+        )
+    }
+
     companion object {
         const val ENDPOINT = "https://api.github.com/search/repositories"
+        const val ITEMS = "items"
+        const val FULL_NAME = "full_name"
+        const val OWNER = "owner"
+        const val AVATAR_URL = "avatar_url"
+        const val LANGUAGE = "language"
+        const val STARGAZERS_COUNT = "stargazers_count"
+        const val WATCHERS_COUNT = "watchers_count"
+        const val FORKS_COUNT = "forks_count"
+        const val OPEN_ISSUES_COUNT = "open_issues_count"
     }
 }
