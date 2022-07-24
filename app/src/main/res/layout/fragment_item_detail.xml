@@ -31,13 +31,14 @@
 
         <TextView
             android:id="@+id/nameView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             tools:text="JetBrains/kotlin"
             android:text="@{viewModel.name}"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ownerIconView" />
@@ -60,6 +61,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/nameView"
+            app:layout_constraintStart_toStartOf="@id/centerGuid"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -70,12 +72,12 @@
             android:layout_marginTop="8dp"
             tools:text="38530 stars"
             android:text="@{context.getString(R.string.format_stargazers_count, viewModel.stargazersCount)}"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/centerGuid"
-            app:layout_constraintTop_toBottomOf="@id/nameView" />
+            app:layout_constraintTop_toBottomOf="@id/languageView" />
 
         <TextView
             android:id="@+id/watchersView"
@@ -85,7 +87,7 @@
             android:layout_marginTop="8dp"
             tools:text="38530 watchers"
             android:text="@{context.getString(R.string.format_watchers_count, viewModel.watchersCount)}"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,11 +102,11 @@
             android:layout_marginTop="8dp"
             tools:text="4675 forks"
             android:text="@{context.getString(R.string.format_forks_count, viewModel.forksCount)}"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/centerGuid"
+            app:layout_constraintStart_toStartOf="@id/centerGuid"
             app:layout_constraintTop_toBottomOf="@id/watchersView" />
 
         <TextView
@@ -115,7 +117,7 @@
             android:layout_marginTop="8dp"
             tools:text="131 open issues"
             android:text="@{context.getString(R.string.format_open_issues_count, viewModel.openIssuesCount)}"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
